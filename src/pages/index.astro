@@ -1,6 +1,5 @@
 ---
-import questions from "../data/questions.json";
-import Layout from "../layouts/Layout.astro";
+import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
@@ -11,18 +10,20 @@ import Layout from "../layouts/Layout.astro";
 </Layout>
 
 <script>
-  import questions from "../data/questions.json";
+  import questions from '../data/questions.json';
 
-  const questionElement = document.querySelector("#question");
-  const nextButton = document.querySelector("#next");
+  const questionElement: Element | null = document.querySelector('#question');
+  const nextButton = document.querySelector('#next');
 
   const showRandomQuestion = () => {
     const question = questions[Math.floor(Math.random() * questions.length)];
 
-    questionElement.textContent = question.question;
+		if (questionElement) {
+			questionElement.textContent = question.question;
+		}
   };
 
-  nextButton?.addEventListener("click", showRandomQuestion);
+  nextButton?.addEventListener('click', showRandomQuestion);
 
   showRandomQuestion();
 </script>
