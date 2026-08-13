@@ -21,9 +21,9 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm format
+      - run: pnpm format .
 
-      - run: pnpm lint:fix
+      - run: pnpm lint:fix .
 
       - name: Commit changes
         run: |
