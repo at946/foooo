@@ -18,9 +18,9 @@ import Layout from '../layouts/Layout.astro';
   const showRandomQuestion = () => {
     const question = questions[Math.floor(Math.random() * questions.length)];
 
-		if (questionElement) {
-			questionElement.textContent = question.question;
-		}
+    if (questionElement) {
+      questionElement.textContent = question.question;
+    }
   };
 
   nextButton?.addEventListener('click', showRandomQuestion);
