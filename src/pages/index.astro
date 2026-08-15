@@ -1,25 +1,63 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Icon } from 'astro-icon/components';
 ---
 
 <Layout>
-  <div class="text-center">
-    <p id="question" class="text-2xl my-10"></p>
-    <button id="next" class="border-2 px-4 py-2 rounded-full">別の問い</button>
+  <div
+    class="flex min-h-[60vh] flex-col items-center justify-center px-6 text-center"
+  >
+    <div class="flex h-64 max-w-3xl items-center justify-center">
+      <p
+        id="question"
+        class="text-3xl leading-relaxed"
+        style="word-break: auto-phrase;"
+      >
+      </p>
+    </div>
+
+    <div class="mb-10 flex gap-5">
+      <a id="share-x" href="#" rel="noopener noreferrer" target="_blank">
+        <Icon name="simple-icons:x" class="text-2xl" />
+      </a>
+    </div>
+
+    <button id="next" class="rounded-full border-2 px-4 py-2">
+      別の問い
+    </button>
   </div>
 </Layout>
 
 <script>
   import questions from '../data/questions.json';
 
-  const questionElement: Element | null = document.querySelector('#question');
+  type Question = { id: number; text: string };
+
+  const questionElement = document.querySelector('#question');
   const nextButton = document.querySelector('#next');
+  const shareXButton = document.querySelector<HTMLAnchorElement>('#share-x');
+
+  let currentQuestion = '';
+
+  const updateShareUrl = (question: Question) => {
+    const url = new URL(`/toi/${question.id}`, window.location.origin);
+    const params = new URLSearchParams({
+      text: question.text + ' #foooo',
+      url: url.toString(),
+    });
+    if (shareXButton) {
+      shareXButton.href = `https://x.com/intent/post?${params}`;
+    }
+  };
 
   const showRandomQuestion = () => {
     const question = questions[Math.floor(Math.random() * questions.length)];
 
+    currentQuestion = question.text;
+
     if (questionElement) {
-      questionElement.textContent = question.question;
+      questionElement.textContent = currentQuestion;
+      updateShareUrl(question);
     }
   };
 
