@@ -10,19 +10,31 @@ import { Icon } from 'astro-icon/components';
     <div class="flex h-64 max-w-3xl items-center justify-center">
       <p
         id="question"
-        class="text-3xl leading-relaxed"
+        class="text-3xl leading-relaxed text-emerald-500 font-bold"
         style="word-break: auto-phrase;"
       >
       </p>
     </div>
 
     <div class="mb-10 flex gap-5">
-      <a id="share-x" href="#" rel="noopener noreferrer" target="_blank">
+      <a
+        id="share-x"
+        href="#"
+        rel="noopener noreferrer"
+        target="_blank"
+        class="duration-300 hover:scale-110 hover:text-emerald-500"
+      >
         <Icon name="simple-icons:x" class="text-2xl" />
       </a>
     </div>
 
-    <button id="next" class="rounded-full border-2 px-4 py-2">
+    <button
+      id="next"
+      class:list={[
+        'rounded-full px-4 py-2 cursor-pointer shadow duration-300 bg-emerald-400 text-white',
+        'hover:scale-105 hover:shadow-lg',
+      ]}
+    >
       別の問い
     </button>
   </div>
@@ -31,18 +43,15 @@ import { Icon } from 'astro-icon/components';
 <script>
   import questions from '../data/questions.json';
 
-  type Question = { id: number; text: string };
-
-  const questionElement = document.querySelector('#question');
-  const nextButton = document.querySelector('#next');
+  const questionElement =
+    document.querySelector<HTMLParagraphElement>('#question');
+  const nextButton = document.querySelector<HTMLButtonElement>('#next');
   const shareXButton = document.querySelector<HTMLAnchorElement>('#share-x');
 
-  let currentQuestion = '';
-
-  const updateShareUrl = (question: Question) => {
-    const url = new URL(`/toi/${question.id}`, window.location.origin);
+  const updateShareUrl = (question: string) => {
+    const url = new URL(`/phewww`, window.location.origin);
     const params = new URLSearchParams({
-      text: question.text + ' #phewww',
+      text: question + ' #phewww',
       url: url.toString(),
     });
     if (shareXButton) {
@@ -51,12 +60,11 @@ import { Icon } from 'astro-icon/components';
   };
 
   const showRandomQuestion = () => {
-    const question = questions[Math.floor(Math.random() * questions.length)];
-
-    currentQuestion = question.text;
+    const question: string =
+      questions[Math.floor(Math.random() * questions.length)];
 
     if (questionElement) {
-      questionElement.textContent = currentQuestion;
+      questionElement.textContent = question;
       updateShareUrl(question);
     }
   };
