@@ -31,18 +31,15 @@ import { Icon } from 'astro-icon/components';
 <script>
   import questions from '../data/questions.json';
 
-  type Question = { id: number; text: string };
-
-  const questionElement = document.querySelector('#question');
-  const nextButton = document.querySelector('#next');
+  const questionElement =
+    document.querySelector<HTMLParagraphElement>('#question');
+  const nextButton = document.querySelector<HTMLButtonElement>('#next');
   const shareXButton = document.querySelector<HTMLAnchorElement>('#share-x');
 
-  let currentQuestion = '';
-
-  const updateShareUrl = (question: Question) => {
+  const updateShareUrl = (question: string) => {
     const url = new URL(`/phewww`, window.location.origin);
     const params = new URLSearchParams({
-      text: question.text + ' #phewww',
+      text: question + ' #phewww',
       url: url.toString(),
     });
     if (shareXButton) {
@@ -51,12 +48,11 @@ import { Icon } from 'astro-icon/components';
   };
 
   const showRandomQuestion = () => {
-    const question = questions[Math.floor(Math.random() * questions.length)];
-
-    currentQuestion = question.text;
+    const question: string =
+      questions[Math.floor(Math.random() * questions.length)];
 
     if (questionElement) {
-      questionElement.textContent = currentQuestion;
+      questionElement.textContent = question;
       updateShareUrl(question);
     }
   };
