@@ -42,7 +42,7 @@ import { Icon } from 'astro-icon/components';
   const updateShareUrl = (question: Question) => {
     const url = new URL(`/toi/${question.id}`, window.location.origin);
     const params = new URLSearchParams({
-      text: question.text + ' #foooo',
+      text: question.text + ' #phewww',
       url: url.toString(),
     });
     if (shareXButton) {
